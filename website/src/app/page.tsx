@@ -6,6 +6,15 @@ import Link from '@mui/material/Link';
 import NextLink from 'next/link';
 import ProTip from '@/components/ProTip';
 import Copyright from '@/components/Copyright';
+import Hero from '../components/Hero';
+import LogoCollection from '../components/LogoCollection';
+import Features from '../components/Features';
+import Testimonials from '../components/Testimonials';
+import Divider from '@mui/material/Divider';
+import Highlights from '../components/Highlights';
+import Pricing from '../components/Pricing';
+import FAQ from '../components/FAQ';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
@@ -19,14 +28,21 @@ export default function Home() {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-          Material UI - Next.js App Router example in TypeScript
-        </Typography>
-        <Link href="/about" color="secondary" component={NextLink}>
-          Go to the about page
-        </Link>
-        <ProTip />
-        <Copyright />
+      <Hero />
+      <div>
+        <LogoCollection />
+        <Features />
+        <Divider />
+        <Testimonials />
+        <Divider />
+        <Highlights />
+        <Divider />
+        <Pricing />
+        <Divider />
+        <FAQ />
+        <Divider />
+        <Footer />
+      </div>
       </Box>
     </Container>
   );

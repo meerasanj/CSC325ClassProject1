@@ -20,8 +20,8 @@ This project is a **personal website portfolio** designed to showcase my skills,
 ## Getting Started  
 ### 1️⃣ Clone the Repository  
 ```bash
-git clone https://github.com/meerasanj/CSC325ClassProject.git
-cd CSC325ClassProject
+git clone https://github.com/meerasanj/CSC325ClassProject1.git
+cd CSC325ClassProject1
 ```
 ### 2️⃣ Install Dependencies (if applicable)  
 ```bash

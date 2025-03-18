@@ -11,7 +11,7 @@ import ModeSwitch from '@/components/ModeSwitch';
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body suppressHydrationWarning={true}>
         <InitColorSchemeScript attribute="class" />
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <AppTheme> {/* Wrap everything in AppTheme */}

@@ -102,6 +102,7 @@ export default function Hero() {
             tailored to your needs. Elevate your experience with top-tier features
             and services.
           </Typography>
+          <StyledBox data-testid="hero-visual" /> 
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={1}

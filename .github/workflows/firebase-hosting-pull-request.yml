@@ -25,36 +25,36 @@ jobs:
   run_tests:
     name: Jest Tests
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: website  # Sets default for ALL steps
     steps:
       - uses: actions/checkout@v4
-    
-      - name: Verify Structure
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Website contents:"
-          ls -la website/
-          echo "Package.json exists:"
-          [ -f website/package.json ] && echo "Yes" || echo "No"
-    
+
+      # Force change directory upfront (most reliable method)
+      - name: Navigate to website directory
+        run: cd website && echo "Current dir: $(pwd)" && ls -la
+
+      # All subsequent steps run in website/ directory
       - name: Set up Node.js
+        run: |
+          cd website
+          corepack enable
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-    
+
       - name: Install dependencies
         run: |
-          echo "Installing in: $(pwd)"
+          cd website
           npm ci
-    
+
       - name: Run tests
-        run: npm test
+        run: |
+          cd website
+          npm test
         env:
           CI: true
-
 
   build_and_preview:
     needs: [validate-docs, run-tests]  # Only run if validation and tests pass

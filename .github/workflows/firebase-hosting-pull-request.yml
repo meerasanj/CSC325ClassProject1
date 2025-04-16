@@ -11,17 +11,15 @@ permissions:
 
 jobs:
   validate-docs: # Vale documentation validation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Vale
-        uses: errata-ai/vale-action@v2
-        with:
-          version: '2.28.0'
-          config: '.vale.ini'
-          files: '**/*.md'
-      - name: Run Vale
-        run: vale --output=line --sort --relative --config=.vale.ini .
+  name: Vale Documentation Validation
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - name: Install and Run Vale
+      run: |
+        curl -sfL https://install.goreleaser.com/github.com/errata-ai/vale.sh | bash -s -- v2.28.0
+        sudo mv bin/vale /usr/local/bin/
+        vale --output=line --sort --relative --config=.vale.ini .
   
   run-tests:  # Jest testing
     runs-on: ubuntu-latest

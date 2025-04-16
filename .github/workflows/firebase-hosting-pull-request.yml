@@ -18,6 +18,8 @@ jobs:
         uses: errata-ai/vale-action@v2
         with:
           version: '2.28.0'
+          config: '.vale.ini'
+          files: '**/*.md'
       - name: Run Vale
         run: vale --output=line --sort --relative --config=.vale.ini .
   

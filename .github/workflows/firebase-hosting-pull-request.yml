@@ -37,18 +37,21 @@ jobs:
           echo "package.json exists:"
           test -f website/package.json && echo "Yes" || echo "No"
 
-      # Set up Node.js WITHOUT cache first
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'false'
 
-      # Now change to website directory for all npm operations
-      - name: Install dependencies
+      - name: Configure npm cache
         working-directory: ./website
         run: |
-          npm ci
-          npm list
+          npm config set cache ~/.npm
+          npm config set prefix ~/.npm
+
+      - name: Install dependencies
+        working-directory: ./website
+        run: npm ci
 
       - name: Run tests
         working-directory: ./website

@@ -12,18 +12,16 @@ permissions:
 # not yet pushed 
 jobs:
   validate-docs: # Vale documentation validation
-  name: Vale Documentation Validation
-  runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v4
-       - name: Install Vale
-         uses: errata-ai/vale-action@v2
-         with:
-           version: '2.28.0'
-           config: '.vale.ini'
-           files: '**/*.md'
-       - name: Run Vale
-         run: vale --output=line --sort --relative --config=.vale.ini .
+    name: Vale Documentation Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Vale
+        uses: errata-ai/vale-action@v2
+        with:
+          version: '2.28.0'
+          config: '.vale.ini'
+          files: '**/*.md'
   
   run-tests:  # Jest testing
     runs-on: ubuntu-latest

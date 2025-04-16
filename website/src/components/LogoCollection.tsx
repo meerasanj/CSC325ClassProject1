@@ -46,7 +46,7 @@ export default function LogoCollection() {
       </Typography>
       <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.6 }}>
         {logos.map((logo, index) => (
-          <Grid key={index} item>
+          <Grid key={index} item xs="auto">
             <img
               src={logo}
               alt={`Fake company number ${index + 1}`}

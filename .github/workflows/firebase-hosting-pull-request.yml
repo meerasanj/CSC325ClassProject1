@@ -22,29 +22,40 @@ jobs:
           config: '.vale.ini'
           files: '**/*.md'
   
-  run_tests:
-    name: Jest Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - name: Debug — show files in /website
-        run: |
-          pwd
-          ls -la
-        working-directory: ./website
-      - name: Install dependencies
-        working-directory: ./website
-        run: npm ci
-      - name: Run tests
-        working-directory: ./website
-        run: npm test
-        env:
-          CI: true
+run_tests:
+  name: Jest Tests
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Change to website directory
+      run: cd website
+      shell: bash
+
+    - name: Debug - Verify Location
+      run: |
+        echo "Current directory: $(pwd)"
+        echo "Files in directory:"
+        ls -la
+        echo "Package.json contents:"
+        cat package.json
+
+    - name: Set up Node.js
+      run: |
+        echo "Setting up Node in: $(pwd)"
+        corepack enable
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: npm test
+      env:
+        CI: true
 
   build_and_preview:
     needs: [validate-docs, run-tests]  # Only run if validation and tests pass

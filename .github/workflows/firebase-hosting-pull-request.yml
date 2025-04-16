@@ -29,13 +29,13 @@ jobs:
 
       - name: Debug - Show directory structure
         run: |
+          cd website
           echo "Current directory: $(pwd)"
           echo "Contents:"
           ls -la
-          echo "Website contents:"
-          ls -la website/
+          echo "package.json exists:"
+          test -f package.json && echo "Yes" || echo "No"
 
-      # Set up Node.js with cache pointing to website directory
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -45,7 +45,9 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./website
-        run: npm ci
+        run: |
+          npm ci
+          npm list
 
       - name: Run tests
         working-directory: ./website
@@ -54,7 +56,7 @@ jobs:
           CI: true
 
   build_and_preview:
-    needs: [validate-docs, run_tests] 
+    needs: [validate-docs, run_tests]
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:

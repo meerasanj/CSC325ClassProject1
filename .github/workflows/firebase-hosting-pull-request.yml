@@ -9,7 +9,6 @@ permissions:
   contents: read
   pull-requests: write
 
-# not yet pushed 
 jobs:
   validate-docs: # Vale documentation validation
     name: Vale Documentation Validation
@@ -24,27 +23,24 @@ jobs:
           files: '**/*.md'
   
   run-tests:  # Jest testing
-  name: Jest Tests
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Node.js
-      working-directory: ./website  
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      working-directory: ./website
-      run: npm ci
-    
-    - name: Run tests
-      working-directory: ./website
-      run: npm test
-      env:
-        CI: true
+    name: Jest Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        working-directory: ./website  
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        working-directory: ./website
+        run: npm ci
+      - name: Run tests
+        working-directory: ./website
+        run: npm test
+        env:
+          CI: true
           
   build_and_preview:
     needs: [validate-docs, run-tests]  # Only run if validation and tests pass

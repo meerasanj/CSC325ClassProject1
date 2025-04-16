@@ -22,37 +22,39 @@ jobs:
           config: '.vale.ini'
           files: '**/*.md'
   
-  run-tests:
+  run_tests:
     name: Jest Tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website  # Sets default for ALL steps
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: 'website'  # Key change - checks out directly into website/
+    
+      - name: Verify Structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Website contents:"
+          ls -la website/
+          echo "Package.json exists:"
+          [ -f website/package.json ] && echo "Yes" || echo "No"
     
       - name: Set up Node.js
-        working-directory: ./website
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
     
       - name: Install dependencies
-        working-directory: ./website
-        run: npm ci
+        run: |
+          echo "Installing in: $(pwd)"
+          npm ci
     
       - name: Run tests
-        working-directory: ./website
         run: npm test
         env:
           CI: true
-    
-      - name: Verify structure
-        run: |
-          echo "Repository contents:"
-          ls -R
-          echo "Package.json content:"
-          cat website/package.json
+
 
   build_and_preview:
     needs: [validate-docs, run-tests]  # Only run if validation and tests pass

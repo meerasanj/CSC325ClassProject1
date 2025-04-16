@@ -24,37 +24,23 @@ jobs:
   
   run_tests:
     name: Jest Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      # Force change directory upfront (most reliable method)
-      - name: Navigate to website directory
-        run: cd website && echo "Current dir: $(pwd)" && ls -la
-
-      # All subsequent steps run in website/ directory
-      - name: Set up Node.js
-        run: |
-          cd website
-          corepack enable
-          echo "Node version: $(node --version)"
-          echo "NPM version: $(npm --version)"
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: |
-          cd website
-          npm ci
-
-      - name: Run tests
-        run: |
-          cd website
-          npm test
-        env:
-          CI: true
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v4
+       - name: Set up Node.js
+         working-directory: ./website  
+         uses: actions/setup-node@v4
+         with:
+           node-version: '20'
+           cache: 'npm'
+       - name: Install dependencies
+         working-directory: ./website
+         run: npm ci
+       - name: Run tests
+         working-directory: ./website
+         run: npm test
+         env:
+           CI: true
 
   build_and_preview:
     needs: [validate-docs, run-tests]  # Only run if validation and tests pass

@@ -11,19 +11,21 @@ permissions:
 
 jobs:
   validate-docs: # Vale documentation validation
-  - name: Vale Documentation Validation
-  run: |
-    # Install Vale directly to persistent PATH location
-    sudo wget https://github.com/errata-ai/vale/releases/download/v2.28.0/vale_2.28.0_Linux_64-bit.tar.gz -O /tmp/vale.tar.gz
-    sudo tar -xzf /tmp/vale.tar.gz -C /usr/local/bin
-    sudo chmod +x /usr/local/bin/vale
-    
-    # Verify installation
-    echo "Vale path: $(which vale)"
-    echo "Vale version: $(vale --version)"
-    
-    # Run with full path to be absolutely certain
-    /usr/local/bin/vale --output=line --sort --relative --config=.vale.ini .
+    name: Vale Documentation Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+      - name: Install and Run Vale
+        run: |
+          go install github.com/errata-ai/vale@v2.28.0
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+          sleep 5
+          vale --version
+          vale --output=line --sort --relative --config=.vale.ini .
   
   run-tests:  # Jest testing
     runs-on: ubuntu-latest

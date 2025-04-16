@@ -22,26 +22,38 @@ jobs:
           config: '.vale.ini'
           files: '**/*.md'
   
-  run-tests:  # Jest testing
-    name: Jest Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Node.js
-        working-directory: ./website  
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - name: Install dependencies
-        working-directory: ./website
-        run: npm ci
-      - name: Run tests
-        working-directory: ./website
-        run: npm test
-        env:
-          CI: true
-          
+  run-tests:
+  name: Jest Tests
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        path: 'website'  # Key change - checks out directly into website/
+    
+    - name: Set up Node.js
+      working-directory: ./website
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      working-directory: ./website
+      run: npm ci
+    
+    - name: Run tests
+      working-directory: ./website
+      run: npm test
+      env:
+        CI: true
+    
+    - name: Verify structure
+      run: |
+        echo "Repository contents:"
+        ls -R
+        echo "Package.json content:"
+        cat website/package.json
+        
   build_and_preview:
     needs: [validate-docs, run-tests]  # Only run if validation and tests pass
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}

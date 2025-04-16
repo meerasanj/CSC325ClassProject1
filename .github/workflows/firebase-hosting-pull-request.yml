@@ -24,22 +24,27 @@ jobs:
   
   run_tests:
     name: Jest Tests
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v4
-       - name: Set up Node.js
-         uses: actions/setup-node@v4
-         with:
-           node-version: '20'
-           cache: 'npm'
-       - name: Install dependencies
-         working-directory: ./website
-         run: npm ci
-       - name: Run tests
-         working-directory: ./website
-         run: npm test
-         env:
-           CI: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Debug — show files in /website
+        run: |
+          pwd
+          ls -la
+        working-directory: ./website
+      - name: Install dependencies
+        working-directory: ./website
+        run: npm ci
+      - name: Run tests
+        working-directory: ./website
+        run: npm test
+        env:
+          CI: true
 
   build_and_preview:
     needs: [validate-docs, run-tests]  # Only run if validation and tests pass

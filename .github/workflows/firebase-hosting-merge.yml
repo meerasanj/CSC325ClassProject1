@@ -11,15 +11,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      # Set up Node.js in root (needed for Firebase CLI)
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm install
-      - run: npm run build
+      
+      # note: all npm operations run in website
+      - name: Install dependencies
+        working-directory: ./website
+        run: npm ci
+      
+      - name: Build project
+        working-directory: ./website
+        run: npm run build
+      
+      # Firebase deploy (uses built files from website/)
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_GITHUB_WEBSITE_35972 }}
           channelId: live
           projectId: my-github-website-35972
+          projectPath: ./website  

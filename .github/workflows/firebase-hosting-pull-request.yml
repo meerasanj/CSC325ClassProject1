@@ -27,37 +27,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug - Show directory structure
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Contents:"
-          ls -la
-          echo "Website contents:"
-          ls -la website/
-          echo "package.json exists:"
-          test -f website/package.json && echo "Yes" || echo "No"
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        # cache: 'npm'  # Commented out to prevent automatic root directory npm install
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'false'
+    - name: Install dependencies
+      working-directory: ./website
+      run: npm ci
 
-      - name: Configure npm cache
-        working-directory: ./website
-        run: |
-          npm config set cache ~/.npm
-          npm config set prefix ~/.npm
-
-      - name: Install dependencies
-        working-directory: ./website
-        run: npm ci
-
-      - name: Run tests
-        working-directory: ./website
-        run: npm test
-        env:
-          CI: true
+    - name: Run tests
+      working-directory: ./website
+      run: npm test
+      env:
+        CI: true
 
   build_and_preview:
     needs: [validate-docs, run_tests]

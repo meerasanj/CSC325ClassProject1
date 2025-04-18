@@ -21,27 +21,27 @@ jobs:
           config: '.vale.ini'
           files: '**/*.md'
   
-run-tests:  # Jest testing
-  name: Jest Tests
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
+  run-tests:  # Jest testing
+    name: Jest Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'  
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'  
 
-    - name: Install dependencies
-      working-directory: ./website
-      run: npm ci
+      - name: Install dependencies
+        working-directory: ./website
+        run: npm ci
 
-    - name: Run tests
-      working-directory: ./website
-      run: npm test
-      env:
-        CI: true
+      - name: Run tests
+        working-directory: ./website
+        run: npm test
+        env:
+          CI: true
 
   build_and_preview:
     name: Firebase Preview

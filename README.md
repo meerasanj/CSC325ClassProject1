@@ -10,7 +10,11 @@ This project is a **personal website portfolio** designed to showcase my skills,
 - **Contact & Call-to-Action** – Includes options for networking and hiring opportunities.  
 
 ## Technologies Used  
-- TBD
+- React
+- TypeScript
+- Firebase Hosting
+- GitHub Actions (CI/CD for deploy previews and production releases)
+- Jest (for unit testing)
 
 ## Project Goals  
 - Create a **visually appealing** and **easy-to-navigate** portfolio.  
@@ -25,12 +29,22 @@ cd CSC325ClassProject1
 ```
 ### 2️⃣ Install Dependencies (if applicable)  
 ```bash
-TBD
+cd website
+npm ci
 ```
-### 3️⃣ Run the Project  
+### 3️⃣ Run the Project (Locally)
 ```bash
-TBD
+npm run dev
 ```
+### 4️⃣ Run Tests
+```bash
+npm test
+```
+
+## Deployment
+Production site: https://my-github-website-35972.web.app/
+
+Deploy Previews: Automatically generated for each pull request and linked in the GitHub Actions checks.
 
 ## License  
 No license has been provided for this project 
